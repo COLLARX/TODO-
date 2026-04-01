@@ -1,2 +1,8 @@
-﻿.worktrees/
-.superpowers/
+node_modules/
+frontend/dist/
+frontend/.vite/
+backend/target/
+*.log
+.env
+.idea/
+.vscode/
