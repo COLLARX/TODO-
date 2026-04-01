@@ -24,7 +24,9 @@ describe("auth flow", () => {
       expect(router.state.location.pathname).toBe("/login");
     });
 
-    expect(await screen.findByRole("heading", { name: /login/i })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: /welcome back/i })).toBeInTheDocument();
+    expect(screen.getByTestId("auth-shell")).toBeInTheDocument();
+    expect(screen.getByTestId("auth-card")).toBeInTheDocument();
   });
 
   it("stores token after login and navigates to /todos", async () => {
@@ -43,7 +45,9 @@ describe("auth flow", () => {
 
     await user.type(screen.getByLabelText(/username/i), "alice");
     await user.type(screen.getByLabelText(/password/i), "secret");
-    await user.click(screen.getByRole("button", { name: /sign in/i }));
+    const signInButton = screen.getByRole("button", { name: /sign in/i });
+    expect(signInButton).toHaveClass("btn", "btn-primary");
+    await user.click(signInButton);
 
     await waitFor(() => {
       expect(localStorage.getItem("token")).toBe("jwt-token");

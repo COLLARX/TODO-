@@ -33,6 +33,7 @@ describe("todo page", () => {
     render(<RouterProvider router={router} />);
 
     expect(await screen.findByText("Write tests")).toBeInTheDocument();
+    expect(screen.getByTestId("todo-shell")).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledWith(
       "/api/todos",
       expect.objectContaining({
@@ -72,6 +73,8 @@ describe("todo page", () => {
     await user.type(await screen.findByLabelText(/title/i), "Ship app");
     await user.type(screen.getByLabelText(/description/i), "today");
     await user.click(screen.getByRole("button", { name: /add todo/i }));
+    expect(screen.getByTestId("todo-composer-card")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /add todo/i })).toHaveClass("btn", "btn-primary");
 
     expect(await screen.findByText("Ship app")).toBeInTheDocument();
     expect(fetchMock).toHaveBeenNthCalledWith(
@@ -120,7 +123,7 @@ describe("todo page", () => {
 
     await user.click(screen.getByRole("button", { name: /mark done/i }));
     await waitFor(() => {
-      expect(screen.getByText(/done/i)).toBeInTheDocument();
+      expect(screen.getByText("DONE")).toBeInTheDocument();
     });
 
     await user.click(screen.getByRole("button", { name: /delete/i }));

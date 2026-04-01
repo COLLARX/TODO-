@@ -1,0 +1,30 @@
+﻿:root {
+  --font-ui: "Plus Jakarta Sans", "Segoe UI", Inter, system-ui, sans-serif;
+  --font-display: "Fraunces", "Times New Roman", serif;
+
+  --bg-base: #f6efe3;
+  --bg-soft: #f1d6b8;
+  --bg-cool: #d8e8e1;
+  --surface: #fffbf4cc;
+  --surface-solid: #fffaf2;
+
+  --text-strong: #2f1f18;
+  --text-body: #4f3b31;
+  --text-muted: #7f695f;
+
+  --accent-primary: #9b5c33;
+  --accent-coral: #e26f4f;
+  --accent-teal: #3d8f95;
+  --accent-success: #5b8b5f;
+  --accent-danger: #a84f42;
+
+  --border-soft: #d9c5b0;
+
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --shadow-soft: 0 10px 26px rgba(104, 66, 39, 0.08);
+  --shadow-medium: 0 18px 40px rgba(104, 66, 39, 0.16);
+  --shadow-lift: 0 22px 52px rgba(74, 42, 24, 0.24);
+}

@@ -1,0 +1,18 @@
+﻿:root {
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --motion-enter: 240ms;
+
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-press: cubic-bezier(0.24, 0.1, 0.28, 1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
