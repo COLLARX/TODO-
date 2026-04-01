@@ -1,5 +1,6 @@
 package com.example.todo.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,5 +31,21 @@ public class JwtService {
             .expiration(Date.from(now.plusSeconds(expirationSeconds)))
             .signWith(secretKey)
             .compact();
+    }
+
+    public Long extractUserId(String token) {
+        Claims claims = Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
+        Object userId = claims.get("userId");
+        if (userId instanceof Integer intValue) {
+            return intValue.longValue();
+        }
+        if (userId instanceof Long longValue) {
+            return longValue;
+        }
+        throw new IllegalArgumentException("token missing userId");
     }
 }

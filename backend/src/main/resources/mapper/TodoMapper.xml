@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.todo.todo.TodoMapper">
+
+    <resultMap id="todoResultMap" type="com.example.todo.todo.Todo">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="listByUserId" parameterType="long" resultMap="todoResultMap">
+        SELECT id, user_id, title, description, status, created_at, updated_at
+        FROM todos
+        WHERE user_id = #{userId}
+        ORDER BY id
+    </select>
+
+    <select id="findByIdAndUserId" resultMap="todoResultMap">
+        SELECT id, user_id, title, description, status, created_at, updated_at
+        FROM todos
+        WHERE id = #{id} AND user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="com.example.todo.todo.Todo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO todos (user_id, title, description, status)
+        VALUES (#{userId}, #{title}, #{description}, #{status})
+    </insert>
+
+    <update id="updateByIdAndUserId" parameterType="com.example.todo.todo.Todo">
+        UPDATE todos
+        SET title = #{title},
+            description = #{description},
+            status = #{status},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id} AND user_id = #{userId}
+    </update>
+
+    <delete id="deleteByIdAndUserId">
+        DELETE FROM todos
+        WHERE id = #{id} AND user_id = #{userId}
+    </delete>
+
+</mapper>
