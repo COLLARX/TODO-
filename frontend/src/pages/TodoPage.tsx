@@ -36,7 +36,7 @@ export default function TodoPage() {
   const handleToggleStatus = async (todo: TodoItem) => {
     const updated = await updateTodo(todo.id, {
       title: todo.title,
-      description: todo.description,
+      description: todo.description ?? "",
       status: todo.status === "DONE" ? "TODO" : "DONE",
     });
 

@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -132,6 +133,39 @@ class TodoControllerTest {
             .andExpect(jsonPath("$.data.length()").value(1));
     }
 
+    @Test
+    void list_without_auth_keeps_frame_protection_enabled() throws Exception {
+        mockMvc.perform(get("/api/todos"))
+            .andExpect(status().isUnauthorized())
+            .andExpect(header().exists("X-Frame-Options"));
+    }
+
+    @Test
+    void h2_console_is_not_publicly_available_by_default() throws Exception {
+        mockMvc.perform(get("/h2-console"))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void update_returns_400_when_status_enum_is_invalid() throws Exception {
+        insertUser(1L, "alice");
+        insertTodo(500L, 1L, "mine");
+
+        mockMvc.perform(put("/api/todos/500")
+                .with(user(1L))
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                          "title": "updated",
+                          "description": "still mine",
+                          "status": "INVALID"
+                        }
+                        """))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value(400));
+    }
+
     private RequestPostProcessor user(Long userId) {
         return authentication(new UsernamePasswordAuthenticationToken(userId, null, List.of()));
     }
@@ -156,3 +190,4 @@ class TodoControllerTest {
         );
     }
 }
+

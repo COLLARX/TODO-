@@ -24,7 +24,7 @@ export type TodoStatus = "TODO" | "DONE";
 export type TodoItem = {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   status: TodoStatus;
 };
 

@@ -12,7 +12,7 @@ export default function TodoList({ todos, onToggleStatus, onDelete }: TodoListPr
       {todos.map((todo) => (
         <li key={todo.id}>
           <h2>{todo.title}</h2>
-          <p>{todo.description}</p>
+          {todo.description ? <p>{todo.description}</p> : null}
           <p>{todo.status}</p>
           <button type="button" onClick={() => onToggleStatus(todo)}>
             {todo.status === "DONE" ? "Mark Todo" : "Mark Done"}

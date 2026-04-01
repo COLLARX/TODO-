@@ -11,6 +11,17 @@ Monorepo skeleton for a Todo application with a React/Vite frontend and a Spring
 
 ## Quick Start
 
+### Backend
+
+Set a JWT secret before starting the backend. The application now fails fast at startup if `JWT_SECRET` is missing.
+
+```bash
+export JWT_SECRET="replace-with-at-least-32-characters"
+mvn -f backend/pom.xml spring-boot:run
+```
+
+The backend listens on `http://localhost:8080` by default and uses an in-memory H2 datasource in MySQL compatibility mode unless you override the datasource properties. The H2 console is disabled by default.
+
 ### Frontend
 
 ```bash
@@ -18,10 +29,4 @@ npm install --prefix frontend
 npm run dev --prefix frontend
 ```
 
-### Backend
-
-```bash
-mvn -f backend/pom.xml spring-boot:run
-```
-
-By default the backend uses an in-memory H2 datasource in MySQL compatibility mode. Override datasource properties to target MySQL.
+The Vite dev server proxies `/api` requests to `http://localhost:8080`, so local frontend development works against the backend without changing the client base URL.

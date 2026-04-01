@@ -1,0 +1,4 @@
+app:
+  jwt:
+    secret: test-jwt-secret-0123456789012345
+    expiration-seconds: 3600
